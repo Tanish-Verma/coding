@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #define MAX_LENGTH 10
 #define MIN_LENGTH 1
@@ -18,36 +19,40 @@ long int factorial(int n){
 }
 
 
-void generatepermutations(int lenght,char arr[lenght],int start,int stop,char result[][lenght+1]){
+int generatepermutations(int lenght,char arr[lenght],int start,int stop,char result[][lenght+1]){
     static int index=0;
     if(start==stop){
-        int i;
-        for(i=0;i<=stop;i++){
-            result[index][i]=arr[i];
-        }
-        result[index][stop+1]='\0';
-        // printf("%s\n",arr);
+        strcpy(result[index],arr);
         index++;
-
-
     }
     else{
         for(int i=start;i<=stop;i++){
-            if(arr[start]==arr[i] && i!=start)continue;
+            int should_skip=0;
+            for(int j=start;j<i;j++){
+                if(arr[i]==arr[j]){
+                    should_skip=1;
+                    break;
+                }
+            }
+            if(should_skip)continue;
             swap(arr,start,i);
             generatepermutations(lenght,arr,start+1,stop,result);
             swap(arr,start,i);
         }
     }
+    return index;
 }
 
 int main(){
     char string[MAX_LENGTH+1];
     scanf("%10s",string);
-    int k=strlen(string);
+    // int k=strlen(string);
+    int k = strlen(string);
+    // qsort(string, k, sizeof(char), (int (*)(const void *, const void *)) strcmp);
     char result[factorial(k)][k+1];
-    generatepermutations(k,string,0,k-1,result);
-    for(int i=0;i<factorial(k);i++){
+    int no_of_permutations=0;
+    int l=generatepermutations(k,string,0,k-1,result);
+    for(int i=0;i<l;i++){
         printf("%s\n",result[i]);
     }
     return 0;
