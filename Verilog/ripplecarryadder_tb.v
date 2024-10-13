@@ -1,4 +1,4 @@
-`timescale 1ns/100ps
+`timescale 1ns/1ns
 `include "ripplecarryadder.v"
 
 module ripple_carry_adder_tb;
@@ -64,6 +64,7 @@ a = 4'b1110; b = 4'b0001; #20;
   always@(*) begin
   $monitor("Time = %0t ns, a = %b, b = %b -> Sum = %b, Overflow = %b", $time, a, b,sum, overflow);
   end
+
 
 endmodule
 
