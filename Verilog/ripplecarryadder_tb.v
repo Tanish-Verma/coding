@@ -39,22 +39,22 @@ a = 4'b0101; b = 4'b0101; #40;
 // Original Test Case 6: Add 4'b0011 + 4'b1101
 a = 4'b0011; b = 4'b1101; #40;
 
-// Additional Test Case 7: Add 4'b0110 + 4'b0010 (no carry, expected sum = 1000)
+// Additional Test Case 7: Add 4'b0110 + 4'b0010
 a = 4'b0110; b = 4'b0010; #40;
 
-// Additional Test Case 8: Add 4'b0010 + 4'b0011 (simple addition, expected sum = 0101)
+// Additional Test Case 8: Add 4'b0010 + 4'b0011
 a = 4'b0010; b = 4'b0011; #40;
 
-// Additional Test Case 9: Add 4'b0100 + 4'b0100 (check for no overflow, expected sum = 1000)
+// Additional Test Case 9: Add 4'b0100 + 4'b0100
 a = 4'b0100; b = 4'b0100; #40;
 
-// Additional Test Case 10: Add 4'b1100 + 4'b0010 (check for no overflow, expected sum = 1110)
+// Additional Test Case 10: Add 4'b1100 + 4'b0010
 a = 4'b1100; b = 4'b0010; #40;
 
-// Additional Test Case 11: Add 4'b0111 + 4'b0111 (check for overflow, expected sum = 1110)
+// Additional Test Case 11: Add 4'b0111 + 4'b0111 
 a = 4'b0111; b = 4'b0111; #40;
 
-// Additional Test Case 12: Add 4'b1110 + 4'b0001 (check for overflow, expected sum = 1111)
+// Additional Test Case 12: Add 4'b1110 + 4'b0001 
 a = 4'b1110; b = 4'b0001; #40;
 
     

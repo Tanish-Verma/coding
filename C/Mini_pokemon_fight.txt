@@ -1,0 +1,100 @@
+---
+
+### Exercise: **Pokemon Battle Game Simulation**
+
+#### Overview:
+Design a C program to simulate a Pokemon battle between two players, either human vs. human or human vs. computer. The game will allow each player to choose their Pokemon, apply moves with unique effects, and attempt to win by fainting all of their opponent's Pokemon. Each Pokemon has health points, a type, possible status effects, and moves that can include attacks, healing, or applying status effects.
+
+#### Objectives:
+
+1. **Define Pokemon Structure**:
+    - Create a structure where the name of each structure instance corresponds to the Pokemon's name.
+    - The structure should contain:
+      - **Type**: An attribute specifying the Pokemon’s elemental type (e.g., Fire, Water, Grass).
+      - **Health Points**: Health points with a max of 100 HP.
+      - **Status Effect**: Track any active status effects like **Burn**, **Stunned**, **Confusion**, or **Poison**.
+      - **Mega Evolution**: A flag indicating if Mega Evolution is available. If used, Mega Evolution grants +20 HP but consumes one turn.
+      - **Pointer to Moves Structure**: A pointer to a structure that holds the Pokemon's moves. Each move will be a function pointer with effects like attacking, healing, or applying status effects.
+      - **Define `MAX_MOVES` as 4**: Limit each Pokemon to 4 moves.
+
+2. **Moves Structure**:
+    - Define a structure to hold the moves for each Pokemon.
+    - Each move should be a function pointer, allowing moves to be customized for each Pokemon.
+    - Moves may include:
+      - **Attack**: Deal damage.
+      - **Heal**: Restore health points.
+      - **Apply Status Effect**: Inflict status effects on the opponent.
+    - Implement functionality to display what each move does.
+
+3. **Game Setup**:
+    - Allow players to select the number of Pokemon they want.
+    - Provide a list of available Pokemon to choose from.
+    - Set up a player vs. player and player vs. computer game mode.
+
+4. **Gameplay Mechanics**:
+    - Players will take turns selecting moves for their active Pokemon.
+    - Track each Pokemon's health points and status effects.
+    - Show available Pokemon during the fight and mark fainted Pokemon with `****`.
+    - If a Pokemon faints, the winner may recall their Pokemon if needed.
+
+5. **Game Balancing**:
+    - Apply appropriate damage, healing, and status effect values to keep the game balanced.
+
+#### Bonus:
+Implement a mechanism to display a description of what each move does, such as damage range, status effect duration, or healing amount.
+
+---
+
+#### Sample Output
+
+1. **Game Start**:
+    ```
+    Welcome to the Pokemon Battle!
+    Select your game mode:
+    1. Player vs Player
+    2. Player vs Computer
+    ```
+
+2. **Pokemon Selection**:
+    ```
+    Player 1, select your Pokemon:
+    1. Pikachu (Electric)
+    2. Charizard (Fire)
+    3. Bulbasaur (Grass)
+    4. Squirtle (Water)
+    
+    Player 2, select your Pokemon:
+    1. Pikachu (Electric)
+    2. Charizard (Fire)
+    3. Bulbasaur (Grass)
+    4. Squirtle (Water)
+    ```
+
+3. **Move Selection**:
+    ```
+    Player 1, Pikachu's turn! Choose a move:
+    1. Thunderbolt - Attack
+    2. Quick Attack - Attack
+    3. Heal - Restore HP
+    4. Paralyze - Apply Status Effect
+    
+    ```
+
+4. **In-Game Battle**:
+    ```
+    Pikachu uses Thunderbolt!
+    Charizard takes 25 damage!
+    Charizard has 75 HP remaining.
+    ```
+
+5. **Victory**:
+    ```
+    Charizard has fainted!
+    Player 1 wins!
+    ```
+
+
+FEEL FREE TO EDIT THE GAME ACCORDING TO YOUR LIKING.
+
+
+
