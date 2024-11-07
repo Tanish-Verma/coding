@@ -4,9 +4,10 @@
 #include <ctype.h>
 #include <string.h>
 
-int random(int min,int max){
-    return min + rand()%(max-min+1);
+int get_random(int min, int max) {  // Renamed function
+    return min + rand() % (max - min + 1);
 }
+
 void toLowercase(char *str) {
     int i = 0;
     while (str[i]) {
@@ -15,50 +16,54 @@ void toLowercase(char *str) {
     }
 }
 
-
-
-int main(){
+int main() {
     srand(time(NULL));
     /*0=snake
     1=water
     2=gun*/
     char opt[15];
-    printf("Welcome to snake water gun.\nHere you will be playing against a specially trained computer.Do try your best to win!\n");
-    int nrounds,computer=0,player=0;
+    printf("Welcome to snake water gun.\nHere you will be playing against a specially trained computer. Do try your best to win!\n");
+    int nrounds, computer = 0, player = 0;
     printf("Enter the Number of points to play: ");
-    scanf("%d",&nrounds);
-    while(computer<nrounds && player<nrounds){
-        int computeroption=random(0,2);
+    scanf("%d", &nrounds);
+
+    while (computer < nrounds && player < nrounds) {
+        int computeroption = get_random(0, 2);  // Updated function call
         char compoption[15];
         int playeroption;
         printf("Type your choice: ");
-        scanf("%14s",&opt);
+        scanf("%14s", opt);  // Removed & from opt
         toLowercase(opt);
-        if(strcmp("snake",opt)==0)playeroption=0;
-        else if(strcmp("water",opt)==0)playeroption=1;
-        else if(strcmp("gun",opt)==0)playeroption=2;
+
+        if (strcmp("snake", opt) == 0) playeroption = 0;
+        else if (strcmp("water", opt) == 0) playeroption = 1;
+        else if (strcmp("gun", opt) == 0) playeroption = 2;
         else {
             printf("Invalid input \n");
             continue;
         }
-        if(computeroption==0)strcpy(compoption,"snake");
-        if(computeroption==1)strcpy(compoption,"water");
-        if(computeroption==2)strcpy(compoption,"gun");
-        printf("Player=%s \tcomputer=%s\n",opt,compoption);
-        if(strcmp(opt,compoption)==0){
+
+        if (computeroption == 0) strcpy(compoption, "snake");
+        if (computeroption == 1) strcpy(compoption, "water");
+        if (computeroption == 2) strcpy(compoption, "gun");
+
+        printf("Player = %s \tcomputer = %s\n", opt, compoption);
+        if (strcmp(opt, compoption) == 0) {
             printf("It is a draw \n\n");
         }
-        if((playeroption==0 && computeroption==1) || (playeroption==1 && computeroption==2) || (playeroption==2 && computeroption==0)){
-            printf("YAY!You won this round \n\n");
+        if ((playeroption == 0 && computeroption == 1) || (playeroption == 1 && computeroption == 2) || (playeroption == 2 && computeroption == 0)) {
+            printf("YAY! You won this round \n\n");
             player++;
         }
-        if((computeroption==0 && playeroption ==1) || (computeroption==1 && playeroption==2) || (computeroption==2 && playeroption==0)){
-            printf("NOo!You lost this round \n\n");
+        if ((computeroption == 0 && playeroption == 1) || (computeroption == 1 && playeroption == 2) || (computeroption == 2 && playeroption == 0)) {
+            printf("NOo! You lost this round \n\n");
             computer++;
         }
-        printf("Current points Player=%d and computer=%d\n",player,computer);
+        printf("Current points Player = %d and computer = %d\n", player, computer);
     }
-    if(player>computer)printf("YAY!You won the game");
-    else printf("NOoo!you lost the game");
+
+    if (player > computer) printf("YAY! You won the game");
+    else printf("NOoo! You lost the game");
+
     return 0;
 }

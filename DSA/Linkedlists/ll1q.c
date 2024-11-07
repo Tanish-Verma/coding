@@ -70,7 +70,7 @@ int main(){
     fourth->ptr=fifth;
     fifth->ptr=NULL;
     char * finalstring=traversal(head);
-    printf("%s",finalstring);
+    printf("%s\n",finalstring);
     // printf("%s",head->string);
     return 0;
 }

@@ -65,7 +65,7 @@ void alternate_node_swap(node* head,int T){
         return;
     }
     for(int i=0;i<(T-1)/2;i++){
-        printf("%d\n",i);
+        // printf("%d\n",i);
         swap(current);
         current=current->next;
     }
