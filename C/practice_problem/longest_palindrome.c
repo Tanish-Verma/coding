@@ -1,6 +1,28 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
+
+int is_palindrome(char* str){
+    int k=strlen(str);
+    int i=0;
+    while(i<(strlen(str)/2)){
+        if(str[i]!=str[k-1]){
+            return 0;
+        }
+        i++;
+        k--;
+    }
+    return 1;
+}
+
+void longest_substring(char * str){
+    int k=strlen(str);
+    while(k--){
+        char * temp;
+        
+    }
+}
 
 int main(){
     printf("Enter the string: ");
@@ -12,7 +34,13 @@ int main(){
         str = (char*)realloc(str, k + 2);
         k++;
     }
-str[k] = '\0';
-    printf("%s\n",str); 
+    str[k] = '\0';
+    if(is_palindrome(str)){
+        printf("Its a palindrome\n");
+    }
+    else{
+        printf("It is not a palindrome\n");
+    }
+    // printf("%s\n",str); 
     return 0;
 }

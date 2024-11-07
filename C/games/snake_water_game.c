@@ -62,8 +62,8 @@ int main() {
         printf("Current points Player = %d and computer = %d\n", player, computer);
     }
 
-    if (player > computer) printf("YAY! You won the game");
-    else printf("NOoo! You lost the game");
+    if (player > computer) printf("YAY! You won the game\n");
+    else printf("NOoo! You lost the game\n");
 
     return 0;
 }
