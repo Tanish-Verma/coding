@@ -1,56 +1,32 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
-void addExpense();
-void viewExpenses();
-void resetExpenses();
 
-int main() {
-    int option;
-    addExpense();
-    while (1) {
-        printf("\nExpense Manager\n");
-        printf("1. Add Expense\n");
-        printf("2. View Expenses\n");
-        printf("3. Reset Expense List\n");
-        printf("4. Exit\n");
-        printf("Select an option: ");
-        scanf("%d", &option);
-        getchar();  // Consume newline left in input buffer
-        switch (option) {
-            case 1:
-                addExpense();
-                break;
-            case 2:
-                viewExpenses();
-                break;
-            case 3:
-                resetExpenses();
-                break;
-            case 4:
-                return 0;
+void printbytes(long long int N){
+    long long int c=1<<31;
+    printf("%lld = ",N);
+    for(int i=1;i<=32;i++){
+        putchar(c&N?'1':'0');
+        N<<=1;
+        if(i%8==0){
+            printf(" ");
         }
-        
     }
+    printf("\n");
+}
+
+int main(){
+    long long int N;
+    if(scanf("%lld",&N)==0){
+        printf("Input Failed");
+    }
+    long long int result,C=1<<31;
+    
+    for(int i=0;i<32;i++){
+        result=N&C;
+        result>>=1;
+        N<<=1;
+    }
+    printf("%lld\n",result);
+    printbytes(result);
     return 0;
-}
-
-void addExpense() {
-    FILE *file = fopen("expenses.txt", "a");
-    //write your logic here
-    printf("Expense added successfully!\n");
-    fclose(file);
-}
-
-void viewExpenses() {
-    FILE *file = fopen("expenses.txt", "r");
-    //write your logic here    
-    // printf("Total Expenses: %.2f\n", total);
-  
-}
-
-void resetExpenses() {
-    //write your logic here
-    printf("Expense list has been reset.\n");
 }
