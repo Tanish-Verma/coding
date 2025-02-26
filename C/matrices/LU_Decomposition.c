@@ -28,6 +28,10 @@ void LU_Decomposition(int n, double **A, double **L, double **U){
 
 double* Forward_Substitution(int n, double **L, double *b){
     double *x = (double*)malloc(n * sizeof(double));
+    if (x == NULL) {
+        fprintf(stderr, "Memory allocation failed\n");
+        exit(EXIT_FAILURE);
+    }
     for(int i=0; i<n; i++){
         x[i] = b[i];
         for(int j=0; j<i; j++){
@@ -39,6 +43,10 @@ double* Forward_Substitution(int n, double **L, double *b){
 
 double* Backward_Substitution(int n, double **U, double *b){
     double *x = (double *)malloc(n * sizeof(double));
+    if (x == NULL) {
+        fprintf(stderr, "Memory allocation failed\n");
+        exit(EXIT_FAILURE);
+    }
     for(int i=n-1; i>=0; i--){
         x[i] = b[i];
         for(int j=i+1; j<n; j++){
@@ -47,6 +55,31 @@ double* Backward_Substitution(int n, double **U, double *b){
         x[i] /= U[i][i];
     }
     return x;
+}
+
+void read_file_input(int n, double **A, double *b){
+    FILE *file = fopen("input.txt", "r");
+    if (file == NULL) {
+        fprintf(stderr, "File not found\n");
+        exit(EXIT_FAILURE);
+    }
+    for(int i=0; i<n; i++){
+        for(int j=0; j<n; j++){
+            if (fscanf(file, "%lf", &A[i][j]) != 1) {
+                fprintf(stderr, "Invalid input\n");
+                fclose(file);
+                exit(EXIT_FAILURE);
+            }
+        }
+    }
+    for(int i=0; i<n; i++){
+        if (fscanf(file, "%lf", &b[i]) != 1) {
+            fprintf(stderr, "Invalid input\n");
+            fclose(file);
+            exit(EXIT_FAILURE);
+        }
+    }
+    fclose(file);
 }
 
 int main(){
@@ -58,25 +91,27 @@ int main(){
     double **A = (double **)malloc(n * sizeof(double *));
     double **L = (double **)malloc(n * sizeof(double *));
     double **U = (double **)malloc(n * sizeof(double *));
+    if (A == NULL || L == NULL || U == NULL) {
+        fprintf(stderr, "Memory allocation failed\n");
+        exit(EXIT_FAILURE);
+    }
     for(int i=0; i<n; i++){
         A[i] = (double *)malloc(n * sizeof(double));
         L[i] = (double *)calloc(n, sizeof(double)); 
         U[i] = (double *)calloc(n, sizeof(double));
-    }
-
-    for(int i=0; i<n; i++){
-        for(int j=0; j<n; j++){
-            printf("Enter the value of A[%d][%d]: ", i+1, j+1);
-            scanf("%lf", &A[i][j]);
+        if (A[i] == NULL || L[i] == NULL || U[i] == NULL) {
+            fprintf(stderr, "Memory allocation failed\n");
+            exit(EXIT_FAILURE);
         }
     }
 
     double *b = (double *)malloc(n * sizeof(double));
-    for(int i=0; i<n; i++){
-        printf("Enter the value of b[%d]: ", i+1);
-        scanf("%lf", &b[i]);
+    if (b == NULL) {
+        fprintf(stderr, "Memory allocation failed\n");
+        exit(EXIT_FAILURE);
     }
-
+    read_file_input(n, A, b);
+    
     LU_Decomposition(n, A, L, U);
 
     printf("The Lower Triangular Matrix is: \n");
