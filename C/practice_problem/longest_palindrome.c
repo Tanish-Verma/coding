@@ -18,7 +18,7 @@ int is_palindrome(char* str){
 
 void longest_substring(char * str){
     int k=strlen(str);
-    while(k--){
+    while(k){
         char * temp;
         
     }
