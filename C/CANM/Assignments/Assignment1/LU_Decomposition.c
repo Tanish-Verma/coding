@@ -84,7 +84,6 @@ void read_file_input(int n, double **A, double *b){
 
 int main(){
     int n;
-
     printf("Enter the number of equations: ");
     scanf("%d", &n);
 
@@ -137,7 +136,6 @@ int main(){
         printf("The value of x[%d] is: %lf\n", i+1, x[i]);
     }
 
-    // Free allocated memory
     for(int i=0; i<n; i++){
         free(A[i]);
         free(L[i]);

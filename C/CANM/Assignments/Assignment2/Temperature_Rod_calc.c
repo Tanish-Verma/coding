@@ -46,7 +46,7 @@ void print_matrix_file(int n, double **a, FILE *f, double * b){
     }
     fprintf(f,"\n");
     for(int i=0;i<n;i++){
-        fprintf(f,"%0.4lf ",b[i]);
+        fprintf(f,"%0.4lf\n ",b[i]);
     }
     return;
 }
