@@ -120,7 +120,10 @@ int main(){
     end = clock();
 
     cpu_time_used = ((double)(end - start)) * 1000000000 / CLOCKS_PER_SEC;
+    printf("\n==============================\n");
+    printf("Time taken for LU Decomposition: %.0f ns\n", cpu_time_used);
     double total_time = cpu_time_used;
+    printf("==============================\n");
 
     start = clock();
     double *y = Forward_Substitution(n, L, b);
@@ -131,7 +134,6 @@ int main(){
     total_time += cpu_time_used;
 
     printf("\n==============================\n");
-    printf("Time taken for LU Decomposition: %.0f ns\n", cpu_time_used);
     printf("Time taken for solving equations: %.0f ns\n", cpu_time_used);
     printf("Total time taken: %.0f ns\n", total_time);
     printf("==============================\n");

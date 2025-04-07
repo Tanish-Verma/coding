@@ -141,7 +141,7 @@ int main() {
 
     printf("\nSolution Vector:\n");
     for (int i = 0; i < n; i++) {
-        printf("x[%d] = %.6lf\n", i, x[i]);
+        printf("x[%d] = %.6lf\n", i+1, x[i]);
     }
     printf("==============================\n");
 

@@ -175,17 +175,17 @@ int main() {
     double *solution = Gauss_seidel(A, b, n, w, epsilon);
     end = clock();
 
-    cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
+    cpu_time_used = ((double)(end - start)) * 1000000000 / CLOCKS_PER_SEC;
 
     printf("\n==============================\n");
     printf("Solution Vector:\n");
     for (int i = 0; i < n; i++) {
-        printf("x[%d] = %.6lf\n", i, solution[i]);
+        printf("x[%d] = %.6lf\n", i+1, solution[i]);
     }
     printf("==============================\n");
 
     printf("\n==============================\n");
-    printf("Time taken to solve: %.9f seconds\n", cpu_time_used);
+    printf("Time taken to solve: %.0f ns\n", cpu_time_used);
     printf("==============================\n");
 
     // Free allocated memory
