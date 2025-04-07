@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#include <time.h>
 
 int Gram_schmidt(int n, double **A, double **Q)
 {
@@ -100,30 +101,13 @@ void matrix_multiply_n1(int n, double **A, double *B, double *C) {
 }
 
 double * QR_factorization(int n, double**A,double*b){
-    double **Q = (double **)malloc(n * sizeof(double *));
-    if (Q == NULL) {
-        fprintf(stderr, "Memory allocation failed\n");
-        exit(EXIT_FAILURE);
+    double **Q = malloc(n * sizeof(double*));
+    double **R = malloc(n * sizeof(double*));
+    for (int i = 0; i < n; i++) {
+        Q[i] = malloc(n * sizeof(double));
+        R[i] = malloc(n * sizeof(double));
     }
-    for(int i=0; i<n; i++){
-        Q[i] = (double *)malloc(n * sizeof(double));
-        if (Q[i] == NULL) {
-            fprintf(stderr, "Memory allocation failed\n");
-            exit(EXIT_FAILURE);
-        }
-    }
-    double **R = (double **)malloc(n * sizeof(double *));
-    if (R == NULL) {
-        fprintf(stderr, "Memory allocation failed\n");
-        exit(EXIT_FAILURE);
-    }
-    for(int i=0; i<n; i++){
-        R[i] = (double *)malloc(n * sizeof(double));
-        if (R[i] == NULL) {
-            fprintf(stderr, "Memory allocation failed\n");
-            exit(EXIT_FAILURE);
-        }
-    }
+
     Gram_schmidt(n,A,Q);
     transpose(n,Q);
     matrix_multiply_nn(n,Q,A,R);
@@ -171,43 +155,16 @@ void read_file_input(int n, double **A, double *b){
     fclose(file);
 }
 
-void print_matrix(int n , double ** A){
-    for (size_t i = 0; i < n; i++)
-    {
-        /* code */
-        printf("[");
-        for (size_t j = 0; j < n; j++)
-        {
-            printf("%.5lf ",A[i][j]);
-        }
-        printf("]\n");
-    }
-    
-}
-
-void delete_text_files() {
-    remove("input.txt");
-    remove("solutions.txt");
-    remove("computed_values.txt");
-}
 int main()
 {
     int n;
-    printf("Enter the size of matrix: ");
-    scanf("%d",&n);
-    double **A = (double **)malloc(n * sizeof(double *));
-    if (A == NULL) {
-        fprintf(stderr, "Memory allocation failed\n");
-        exit(EXIT_FAILURE);
+    printf("Enter the number of variables: ");
+    scanf("%d", &n);
+
+    double **A = malloc(n * sizeof(double*));
+    for (int i = 0; i < n; i++) {
+        A[i] = malloc(n * sizeof(double));
     }
-    for(int i=0; i<n; i++){
-        A[i] = (double *)malloc(n * sizeof(double));
-        if (A[i] == NULL) {
-            fprintf(stderr, "Memory allocation failed\n");
-            exit(EXIT_FAILURE);
-        }
-    }
-   
 
     double *b = (double *)malloc(n * sizeof(double));
     if (b == NULL) {
@@ -216,21 +173,29 @@ int main()
     }
 
     read_file_input(n,A,b);
-    double * x=QR_factorization(n,A,b);
-    for(int i=0; i<n; i++){
-        printf("The value of x[%d] is: %lf\n", i+1, x[i]);
-    }
 
+    clock_t start = clock();
+    double *x = QR_factorization(n, A, b);
+    clock_t end = clock();
+
+    printf("\n==============================\n");
+    printf("Solution Vector (x):\n");
+    for (int i = 0; i < n; i++) {
+        printf("x[%d] = %10.6f\n", i + 1, x[i]);
+    }
+    printf("==============================\n");
+
+    printf("\n==============================\n");
+    printf("Time taken: %ld ns\n", (end - start) * 1000000000L / CLOCKS_PER_SEC);
+    printf("==============================\n");
 
     // Free allocated memory
-    for(int i=0; i<n; i++){
+    for (int i = 0; i < n; i++) {
         free(A[i]);
     }
     free(A);
     free(b);
     free(x);
 
-    // Delete the text files
-    delete_text_files();
     return 0;
 }
