@@ -80,20 +80,10 @@ int main() {
         inverse[i] = (double *)malloc(n * sizeof(double));
     }
     
-
-    // Read the matrix from the file
     read_matrix("inputs.txt", matrix, n);
-
-    // Calculate the norm of the matrix
     double norm = calculate_norm(matrix, n);
-
-    // Calculate the inverse of the matrix
     invert_matrix(matrix, inverse, n);
-
-    // Calculate the norm of the inverse matrix
     double inverse_norm = calculate_norm(inverse, n);
-
-    // Calculate the condition number
     double condition_number = norm * inverse_norm;
     printf("Condition number of the matrix: %lf\n", condition_number);
 
