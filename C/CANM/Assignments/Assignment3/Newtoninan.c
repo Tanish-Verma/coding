@@ -2,9 +2,25 @@
 #include <stdlib.h>
 #include <math.h>
 
-double F(double x){
-    return exp(0.8*x)-1;
+// Function to print a matrix
+void print_matrix(double **matrix, int rows, int cols) {
+    printf("\nMatrix:\n");
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            if (j < cols - i) { // Only print valid entries in the forward difference matrix
+                printf("%10.5lf ", matrix[i][j]);
+            } else {
+                printf("          "); // Print spaces for invalid entries
+            }
+        }
+        printf("\n");
+    }
 }
+
+double F(double x) {
+    return exp(0.8 * x) - 1;
+}
+
 int read_data_from_file(const char *filename, double *x, double *f, int n) {
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
@@ -21,6 +37,7 @@ int read_data_from_file(const char *filename, double *x, double *f, int n) {
     fclose(file);
     return 1;
 }
+
 void compute_forward_differences(double *f, double **forward_diff, int n) {
     for (int i = 0; i < n; i++) {
         forward_diff[i][0] = f[i];
@@ -43,7 +60,7 @@ double factorial(int n) {
 double newtonian_forward_polynomial(double *x, double **forward_diff, int degree, double x_i, int start_index) {
     double result = forward_diff[start_index][0];
     double term = 1.0;
-    double u = (x_i - x[start_index])/(x[start_index+1]-x[start_index]);
+    double u = (x_i - x[start_index]) / (x[start_index + 1] - x[start_index]);
     for (int i = 1; i <= degree; i++) {
         term *= (u - (i - 1));
         result += (term * forward_diff[start_index][i]) / factorial(i);
@@ -110,7 +127,7 @@ int main() {
         return 1;
     }
     printf("Enter the degree of Newtonian polynomial: ");
-    scanf("%d",&degree);
+    scanf("%d", &degree);
     if (degree >= n) {
         fprintf(stderr, "Error: The degree of the polynomial must be less than the size of data (n).\n");
         free(x);
@@ -125,13 +142,17 @@ int main() {
         free(f);
         return 1;
     }
-    
+
     double h = x[1] - x[0];
     double **forward_diff = (double **)malloc(n * sizeof(double *));
     for (int i = 0; i < n; i++) {
         forward_diff[i] = (double *)malloc(n * sizeof(double));
     }
     compute_forward_differences(f, forward_diff, n);
+
+    // Print the forward difference matrix
+    print_matrix(forward_diff, n, n);
+
     int start_index = find_start_index(x, n, x_i, degree);
     double computed_value = newtonian_forward_polynomial(x, forward_diff, degree, x_i, start_index);
     double actual_value = F(x_i);
@@ -149,6 +170,7 @@ int main() {
     for (int i = 0; i < n; i++) {
         free(forward_diff[i]);
     }
+    free(forward_diff);
     free(x);
     free(f);
 

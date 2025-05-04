@@ -1,3 +1,4 @@
+// Note: In the screenshots of my code, comments have been intentionally omitted to ensure clear and unobstructed visibility of the code structure and logic.
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
