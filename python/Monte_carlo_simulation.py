@@ -14,14 +14,14 @@ data = yf.download(stock_symbol, start='2010-01-01', end='2025-05-01', auto_adju
 if data.empty:
     raise ValueError(f"No data downloaded for {stock_symbol}. Please check the stock symbol or date range.")
 
-# Calculate daily log returns
+# Calculate daily log returns using the formula: log(S_t / S_(t-1))
 log_returns = np.log(data['Close'] / data['Close'].shift(1)).dropna()
 
 # Estimate daily mean and standard deviation of returns
-mu_daily = log_returns.mean()
-mu = (mu_daily * 252).item()  # Annualized return
-sigma_daily = log_returns.std()
-sigma = (sigma_daily * np.sqrt(252)).item()  # Annualized volatility
+mu_daily = log_returns.mean()  # Mean of daily log returns
+mu = (mu_daily * 252).item()  # Annualized return: μ = μ_daily * 252 (252 trading days in a year)
+sigma_daily = log_returns.std()  # Standard deviation of daily log returns
+sigma = (sigma_daily * np.sqrt(252)).item()  # Annualized volatility: σ = σ_daily * sqrt(252)
 
 # Get the latest closing price (S₀)
 S0 = data['Close'].iloc[-1].item()
@@ -41,12 +41,12 @@ def simulate_gbm(S0, mu, sigma, days=252, simulations=1000):
     Returns:
     - price_paths: Simulated stock price paths
     """
-    dt = 1 / days  # Time step
-    drift = (mu - 0.5 * sigma**2) * dt  # Drift component
-    volatility = sigma * np.sqrt(dt)  # Volatility component
-    random_shocks = np.random.normal(size=(days, simulations))  # Random shocks
-    daily_returns = np.exp(drift + volatility * random_shocks)  # Simulated daily returns
-    price_paths = S0 * daily_returns.cumprod(axis=0)  # Cumulative product to get price paths
+    dt = 1 / days  # Time step: Δt = 1 / number of trading days
+    drift = (mu - 0.5 * sigma**2) * dt  # Drift term: (μ - 0.5 * σ^2) * Δt
+    volatility = sigma * np.sqrt(dt)  # Volatility term: σ * sqrt(Δt)
+    random_shocks = np.random.normal(size=(days, simulations))  # Random shocks from a normal distribution
+    daily_returns = np.exp(drift + volatility * random_shocks)  # Daily returns: exp(drift + volatility * random_shocks)
+    price_paths = S0 * daily_returns.cumprod(axis=0)  # Price paths: S_t = S_(t-1) * exp(daily_returns)
     return price_paths
 
 # Run simulation
@@ -70,11 +70,14 @@ plt.show()
 
 # Calculate and print expected price and 95% confidence interval
 final_prices = paths[-1]
-expected_price = np.mean(final_prices)
-conf_interval = np.percentile(final_prices, [2.5, 97.5])
+expected_price = np.mean(final_prices)  # Expected price: mean of terminal prices
+conf_interval = np.percentile(final_prices, [2.5, 97.5])  # 95% confidence interval: 2.5th and 97.5th percentiles
+price_increase_count = np.sum(final_prices > S0)
+probability_increase = (price_increase_count / 1000) * 100  # Convert to percentage
 
 print(f"Expected Price: ₹{expected_price:.2f}")
 print(f"95% Confidence Interval: ₹{conf_interval[0]:.2f} - ₹{conf_interval[1]:.2f}")
+print(f"Probability of Price Increase: {probability_increase:.1f}%")
 
 # Print the input parameters for reporting
 print("\nModel Parameters:")
